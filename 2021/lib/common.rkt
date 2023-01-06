@@ -3,7 +3,8 @@
 (provide (all-defined-out)
 		 (all-from-out threading))
 
-(require threading)
+(require syntax/parse/define
+         threading)
 
 (define (get-folder-name path)
   (second (reverse (string-split (path->string path) "\\"))))
@@ -32,3 +33,24 @@
 
 (define (chars s)
   (string->list s))
+
+(define-syntax-parser zip
+  [(_)
+  #'(zip-fun '(()))]
+  [(_ lists)
+  #'(zip-fun lists)]
+  [(_ l1 l2 ...+)
+  #'(zip-fun (list l1 l2 ...))])
+
+(define (zip-fun lists)
+  #;(printf "called with ~a\n" lists)
+  (cond
+    [(ormap empty? lists) '()]
+	[else
+	  (define new-args (map (λ (li) (drop li 1)) lists))
+	  #;(println new-args)
+	  (cons
+	    (map first lists)
+		(zip-fun new-args))]))
+
+#;(curry)
