@@ -26,19 +26,23 @@
 
 (define depth 0)
 (define distance 0)
+(define aim 0)
 
 (define (print)
   (printf "distance: ~a\n" distance)
   (printf "depth: ~a\n" depth)
+  (printf "aim: ~a\n" aim)
   (printf "dist * depth: ~a\n" (* distance depth))
   )
 
 (define (forward n)
-  (set! distance (+ distance n)))
+  (set! distance (+ distance n))
+  (set! depth (+ depth (* aim n)))
+  )
 (define (up n)
-  (set! depth (- depth n)))
+  (set! aim (- aim n)))
 (define (down n)
-  (set! depth (+ depth n)))
+  (set! aim (+ aim n)))
 
 (define (way var val)
   (print val)
